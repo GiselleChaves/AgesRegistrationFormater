@@ -2,12 +2,11 @@ import java.util.LinkedList;
 
 public class Project {
   private String projectName;
-  private LinkedList<Studant> studants;
+  private LinkedList<Student> students;
 
   public Project(String projectName){
     this.projectName = projectName;
-    studants = new LinkedList<>();
-    studants.size();
+    students = new LinkedList<>();
   }
 
   public String getProjectName() {
@@ -20,7 +19,14 @@ public class Project {
   
   public void addStudants(String level, String name, int registry){
     //Studants studant = new Studants(name, name, registry); criando variavel studant
-    studants.add(new Studant(level, name, registry)); //ja iniciando studant s/ criar variavel
+    students.add(new Student(level, name, registry)); //ja iniciando studant s/ criar variavel
   }
-  
+
+  public int size(){
+    return students.size();
+  }  
+
+  public Student[] getStudentsArray(){
+    return (Student[]) students.toArray();
+  }
 }

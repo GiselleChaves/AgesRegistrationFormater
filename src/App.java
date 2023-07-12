@@ -24,7 +24,7 @@ public class App {
                 line = br.readLine();
             } 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -32,11 +32,12 @@ public class App {
         if(line.isEmpty())
             return;
 
-        if(!line.matches("Ages\\s\\W+,*")){
+        if(!line.matches("Ages\\s\\w+,.*")){
+            //line = line.replaceAll("\"", "\\\"");
             projects.add(new Project(line));
         }else{
-            String name = line.replaceAll("*,\\s", "");
-            String level = line.replaceAll(",*", "");
+            String name = line.replaceAll(".*,\\s", "");
+            String level = line.replaceAll(",.*", "");
             int registry=0;
             Project project = projects.get(projects.size()-1);
             project.addStudants(level, name, registry);
@@ -48,8 +49,26 @@ public class App {
         FileWriter file = null;
         try{
             file = new FileWriter(outPath);
-            file.write("Hello Wordl");
-
+            file.write("Total;;;;;;;;;;;;\n");
+            file.write("Professor;;;;;;;;;;;;\n");
+            file.write("Projeto;;");
+            
+            String[][] table = new String[projects.size()][30];
+            int column=0;
+            for(Project project:projects){              
+                table[column][0] = project.getProjectName();
+                file.write(project.getProjectName());
+                for(Student student:project.getStudentsArray()){
+                    file.write("\n" + student.getName() + ";;");
+                }
+                column++;
+            }
+                  
+            file.write("\nAGES I Turma 30");
+            /*if(project.student.getLevel() == Level.AGES_I){
+                file.write("outPath");
+            }*/
+            
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }finally{
