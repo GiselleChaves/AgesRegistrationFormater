@@ -1,9 +1,9 @@
-public class Studant {
+public class Student {
   private String name;
   private String level;
   private int registry;
 
-  public Studant(String name, String level, int registry){
+  public Student(String name, String level, int registry){
     this.name = name;
     this.level = level;
     this.registry = registry;
