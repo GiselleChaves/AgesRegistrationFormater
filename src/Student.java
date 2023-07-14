@@ -1,12 +1,12 @@
 public class Student {
   private String name;
   private String level;
-  private int registry;
+  private String gradeCoefficient;
 
-  public Student(String name, String level, int registry){
+  public Student(String name, String level, String gradeCoefficient){
     this.name = name;
     this.level = level;
-    this.registry = registry;
+    this.gradeCoefficient = gradeCoefficient;
   }
   
   public String getName() {
@@ -17,8 +17,8 @@ public class Student {
     return level;
   }
 
-  public int getRegistry() {
-    return registry;
+  public String getGradeCoefficient() {
+    return gradeCoefficient;
   }
 
   public void setName(String name) {
@@ -29,10 +29,9 @@ public class Student {
     this.level = level;
   }
 
-  public void setRegistry(int registry) {
-    this.registry = registry;
+  public void setRegistry(String gradeCoefficient) {
+    this.gradeCoefficient = gradeCoefficient;
   }
-
 }
 
 
