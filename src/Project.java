@@ -17,9 +17,9 @@ public class Project {
     this.projectName = projectName;
   }
   
-  public void addStudants(String level, String name, int registry){
-    //Studants studant = new Studants(name, name, registry); criando variavel studant
-    students.add(new Student(level, name, registry)); //ja iniciando studant s/ criar variavel
+  public void addStudants(String level, String name, String gradeCoefficient){
+    //Studants studant = new Studants(name, name, gradeCoefficient); criando variavel studant
+    students.add(new Student(level, name, gradeCoefficient)); //ja iniciando studant s/ criar variavel
   }
 
   public int size(){

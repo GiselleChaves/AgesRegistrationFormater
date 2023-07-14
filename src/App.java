@@ -9,7 +9,7 @@ public class App {
     public static void main(String[] args) throws Exception {
 
         projects = new LinkedList<>();
-        String path = "c:\\Users\\Dell\\Desktop\\AGES\\Banco\\AGES2023-2\\pre-registration\\Ages2023-2.txt";
+        String path = "c:\\Users\\Dell\\Desktop\\AGES\\Banco\\AGES2023-2\\AgesRegistrationFormater\\GiTeste.txt";
 
         readData(path);
         createCsv();
@@ -32,14 +32,16 @@ public class App {
         if(line.isEmpty())
             return;
 
-        if(!line.matches("Ages\\s\\w+,.*")){
+        if(!line.matches("Ages\\s\\w+;.*")){
             projects.add(new Project(line));
         }else{
-            String name = line.replaceAll(".*,\\s", "");
-            String level = line.replaceAll(",.*", "");
-            int registry=0;
+            String level = line.replaceAll(";\\s.*","");
+            String name = line.replaceAll("Ages\\s\\w+;\\s","");
+            name = name.replaceAll(";.*","");
+            String gradeCoefficient = line.replaceAll(".*;\\s","");
+            //int registry=0;
             Project project = projects.get(projects.size()-1);
-            project.addStudants(name, level, registry);
+            project.addStudants(name, level, gradeCoefficient);
         }
     }
 
@@ -66,7 +68,7 @@ public class App {
             String[][] table = new String[projects.size()][levelsSize];
             int column = 0;
            
-            
+            double gradeCoefficient=0.0;
             for(Project project:projects){              
                 table[column][0] = project.getProjectName();  
                 int line = 0, offset = 0;
@@ -84,7 +86,7 @@ public class App {
                         }else
                             offset = AgesIVPosition;
                         }
-                        table[column][offset + line] = student.getName();
+                        table[column][offset + line] = student.getName() + ";;" + gradeCoefficient;
                         line++;
                     }
                     column++;
@@ -123,9 +125,8 @@ public class App {
                     }
                 }
             }
-            return true;
-        }
-
+        return true;
+    }
 }
 
 
