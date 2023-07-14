@@ -20,7 +20,7 @@ public class App {
             String line = br.readLine();
             while(line != null){
                 handle(line);
-                System.out.println(line);
+                // System.out.println(line);
                 line = br.readLine();
             } 
         } catch (Exception e) {
@@ -39,7 +39,7 @@ public class App {
             String name = line.replaceAll("Ages\\s\\w+;\\s","");
             name = name.replaceAll(";.*","");
             String gradeCoefficient = line.replaceAll(".*;\\s","");
-            //int registry=0;
+            System.out.println(level + "|" + name + "|" + gradeCoefficient);
             Project project = projects.get(projects.size()-1);
             project.addStudants(name, level, gradeCoefficient);
         }
@@ -68,9 +68,8 @@ public class App {
             String[][] table = new String[projects.size()][levelsSize];
             int column = 0;
            
-            double gradeCoefficient=0.0;
             for(Project project:projects){              
-                table[column][0] = project.getProjectName();  
+                table[column][0] = project.getProjectName() + ";";  
                 int line = 0, offset = 0;
                 String level="";
                 for(Student student:project.getStudentsArray()){
@@ -86,7 +85,8 @@ public class App {
                         }else
                             offset = AgesIVPosition;
                         }
-                        table[column][offset + line] = student.getName() + ";;" + gradeCoefficient;
+                        //table[column][offset + line] = student.getName() + ";;" + gradeCoefficient;
+                        table[column][offset + line] = student.getName() + ";" + student.getGradeCoefficient();
                         line++;
                     }
                     column++;
@@ -96,7 +96,7 @@ public class App {
                 for(int row=0; row<table[0].length; row++){
                     for(column=0; column<table.length; column++){
                         if(table[column][row] == null){
-                            file.write(";;");
+                            file.write(";;;");
                         }else{
                             file.write(table[column][row] + ";;");
                         }
