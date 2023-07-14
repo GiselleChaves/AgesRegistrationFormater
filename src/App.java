@@ -33,14 +33,13 @@ public class App {
             return;
 
         if(!line.matches("Ages\\s\\w+,.*")){
-            //line = line.replaceAll("\"", "\\\"");
             projects.add(new Project(line));
         }else{
             String name = line.replaceAll(".*,\\s", "");
             String level = line.replaceAll(",.*", "");
             int registry=0;
             Project project = projects.get(projects.size()-1);
-            project.addStudants(level, name, registry);
+            project.addStudants(name, level, registry);
         }
     }
 
@@ -53,35 +52,80 @@ public class App {
             file.write("Professor;;;;;;;;;;;;\n");
             file.write("Projeto;;");
             
-            String[][] table = new String[projects.size()][30];
-            int column=0;
-            for(Project project:projects){              
-                table[column][0] = project.getProjectName();
-                file.write(project.getProjectName());
-                for(Student student:project.getStudentsArray()){
-                    file.write("\n" + student.getName() + ";;");
-                }
-                column++;
-            }
-                  
-            file.write("\nAGES I Turma 30");
-            /*if(project.student.getLevel() == Level.AGES_I){
-                file.write("outPath");
-            }*/
+            int AgesIPosition = Project.levelSize(projects, "Ages I");
+            int AgesIIPosition = Project.levelSize(projects, "Ages II");
+            int AgesIIIPosition = Project.levelSize(projects, "Ages III");
+            int AgesIVPosition = Project.levelSize(projects, "Ages IV");
+
+            int levelsSize = 
+                Project.getBiggestLevelSize(projects, "Ages I") + 
+                Project.getBiggestLevelSize(projects, "Ages II") + 
+                Project.getBiggestLevelSize(projects, "Ages III") + 
+                Project.getBiggestLevelSize(projects, "Ages IV"); 
+
+            String[][] table = new String[projects.size()][levelsSize];
+            int column = 0;
+           
             
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }finally{
-            if(file != null){
-                try{
-                    file.close();
-                }catch(IOException f){
-                    System.out.println(f.getMessage());
-               }
+            for(Project project:projects){              
+                table[column][0] = project.getProjectName();  
+                int line = 0, offset = 0;
+                String level="";
+                for(Student student:project.getStudentsArray()){
+                    if(!student.getLevel().equals(level)){
+                        line = 0;
+                        level = student.getLevel();
+                        if(student.getLevel().equals("Ages I")){
+                            offset = AgesIPosition;
+                        }else if(student.getLevel().equals("Ages II")){
+                            offset = AgesIIPosition;
+                        }else if(student.getLevel().equals("Ages III")){
+                            offset = AgesIIIPosition;
+                        }else
+                            offset = AgesIVPosition;
+                        }
+                        table[column][offset + line] = student.getName();
+                        line++;
+                    }
+                    column++;
+                    
+                }
+            
+                for(int row=0; row<table[0].length; row++){
+                    for(column=0; column<table.length; column++){
+                        if(table[column][row] == null){
+                            file.write(";;");
+                        }else{
+                            file.write(table[column][row] + ";;");
+                        }
+                            
+                    }
+                    if(row < AgesIIPosition-1){
+                        file.write("\nAges I Turma 30;;");
+                    }else if(row < AgesIIIPosition-1){
+                        file.write("\nAges II Turma 30;;");
+                    }else if(row < AgesIVPosition-1){
+                        file.write("\nAges III Turma 30;;");
+                    }else{
+                        file.write("\nAges IV Turma 30;;");
+                    }
+                    
+                }
+         
+            } catch (Exception e) {
+                e.printStackTrace();
+            }finally{
+                if(file != null){
+                    try{
+                        file.close();
+                    }catch(IOException f){
+                        System.out.println(f.getMessage());
+                    }
+                }
             }
+            return true;
         }
-        return true;
-    }
+
 }
 
 
